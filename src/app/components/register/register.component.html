@@ -1,0 +1,153 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-6">
+      <div class="wrapper">
+        <div *ngIf="message" class="alert" [class]="alertClassName" role="alert">
+          {{ message }}
+        </div>
+        <h1>Register</h1>
+        <hr />
+        <form #registerForm="ngForm" (submit)="onSubmit()">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input
+              type="text"
+              id="firstName"
+              name="firstName"
+              class="form-control"
+              #firstName="ngModel"
+              [class.is-invalid]="firstName.invalid && firstName.touched"
+              [(ngModel)]="userModel.firstName"
+              required
+            />
+            <small
+              [class.d-none]="firstName.untouched || firstName.valid"
+              class="text-danger"
+              >*Name is required</small
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="text"
+              id="email"
+              #email="ngModel"
+              [class.is-invalid]="email.invalid && email.touched"
+              name="email"
+              class="form-control"
+              [(ngModel)]="userModel.email"
+              required
+              pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+            />
+            <div *ngIf="!email?.valid && (email?.dirty || email?.touched)">
+              <small class="text-danger" *ngIf="email.errors?.required">*Email is required</small>
+              <small class="text-danger" *ngIf="email.errors?.pattern">*Email is not valid</small>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="mobile">Mobile</label>
+            <input
+              type="number"
+              id="mobile"
+              #mobile="ngModel"
+              [class.is-invalid]="mobile.invalid && mobile.touched"
+              name="mobile"
+              class="form-control"
+              [(ngModel)]="userModel.mobile"
+              pattern="^\d{10}$"
+              required
+            />
+            <div *ngIf="!mobile?.valid && (mobile?.dirty || mobile?.touched)">
+              <small class="text-danger" *ngIf="mobile.errors?.required">*Mobile number is required</small>
+              <small class="text-danger" *ngIf="mobile.errors?.pattern">*Mobile number must be 10 digit</small>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              #password="ngModel"
+              [class.is-invalid]="password.invalid && password.touched"
+              class="form-control"
+              [(ngModel)]="userModel.password"
+              minlength="6"
+              required
+            />
+            <div *ngIf="!password?.valid && (password?.dirty || password?.touched)">
+              <small class="text-danger" *ngIf="password.errors?.required">*Password is required</small>
+              <small class="text-danger" *ngIf="password.errors?.minlength">*Password length must be 6</small>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="city">City</label>
+            <select              
+              id="city"
+              #city="ngModel"
+              class="form-control"
+              name="city"
+              [(ngModel)]="userModel.city"
+              (change)="onChange(city.value)"
+              [class.is-invalid]="hasError && city.touched"
+              required
+            >
+              <option value="default">-- select city --</option>
+              <option *ngFor="let city of cities">{{ city }}</option>
+            </select>
+            <!-- <small class="text-danger" [class.d-none]="city.untouched || !city.hasError" >*City is required</small> -->
+          </div>
+
+          <div class="form-group">
+            <label for="">Gender</label>
+            <div class="form-check">
+              <input
+                type="radio"
+                name="gender"
+                class="form-check-input"
+                value="male"
+                [(ngModel)]="userModel.gender"
+              />
+              <label class="form-check-label">Male</label>
+            </div>
+            <div class="form-check">
+              <input
+                type="radio"
+                name="gender"
+                class="form-check-input"
+                value="female"
+                [(ngModel)]="userModel.gender"
+              />
+              <label class="form-check-label">Female</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="subscribe"
+                class="form-check-input"
+                [(ngModel)]="userModel.subscribe"
+              />
+              <label for="" class="form-check-lable">Subscribe</label>
+            </div>
+          </div>
+
+          <input
+            type="submit"
+            value="Register"
+            class="btn btn-primary btn-block"
+            [disabled]="registerForm.invalid"
+          />
+        </form>
+      </div>
+    </div>
+    <div class="col-lg-3"></div>
+  </div>
+</div>
